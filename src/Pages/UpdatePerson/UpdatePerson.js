@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import usePerson from '../../Hooks/usePerson';
 
 
 const UpdatePerson = () => {
     const { id } = useParams();
     const person = usePerson(id);
+    const navigate = useNavigate();
+
 
     const nameRef = useRef('');
     const ageRef = useRef('');
@@ -15,12 +17,24 @@ const UpdatePerson = () => {
     const handleSubmit = event => {
         event.preventDefault();
 
-        console.log('update');
-        nameRef.current.value();
-        ageRef.current.value();
-        genderRef.current.value();
-        moneyRef.current.value();
+        const newUser = {
+            name: nameRef.current.value,
+            age: ageRef.current.value,
+            gender: genderRef.current.value,
+            money: moneyRef.current.value
+        }
 
+        fetch(`http://localhost:5000/api/user/${id}`, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(newUser)
+        })
+            .then(response => response.json())
+            .then(result => {
+                navigate(`/person/${id}`);
+            })
     }
 
     return (

@@ -8,7 +8,7 @@ const usePeople = () => {
             .then(data => setPeople(data))
     }, [])
 
-    return people;
+    return [people, setPeople];
 }
 
 export default usePeople;
