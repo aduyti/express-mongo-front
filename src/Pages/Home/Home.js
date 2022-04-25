@@ -8,7 +8,7 @@ const Home = () => {
         <div>
             <h1>Home</h1>
             {
-                people.map(person => <Card key={person.id} person={person} />)
+                people.map(person => <Card key={person._id} person={person} />)
             }
         </div>
     );
